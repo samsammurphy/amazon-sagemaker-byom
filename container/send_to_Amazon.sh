@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
 
-# This script shows how to build the Docker image and push it to ECR to be ready for use
-# by SageMaker.
+# This script shows how to build the Docker image and push it to 
+# ECR to be ready for use by SageMaker.
 
-# The argument to this script is the image name. This will be used as the image on the local
-# machine and combined with the account and region to form the repository name for ECR.
+# The argument to this script is the image name. This will be used 
+# as the image on the local machine and combined with the account 
+# and region to form the repository name for ECR.
+
+# read the user-defined shell variable into 'image'
 image=$1
 
 if [ "$image" == "" ]
 then
-    echo "Usage: $0 <image-name>"
+    echo "Usage: $0 {image_name}"
     exit 1
 fi
 
-# chmod +x decision_trees/train
-chmod +x decision_trees/serve
+# chmod +x app/train  <-- from the original example, we are just hosting/serving
+chmod +x app/serve
 
 # Get the account number associated with the current IAM credentials
 account=$(aws sts get-caller-identity --query Account --output text)
@@ -44,8 +47,8 @@ fi
 # Get the login command from ECR and execute it directly
 $(aws ecr get-login --region ${region} --no-include-email)
 
-# Build the docker image locally with the image name and then push it to ECR
-# with the full name.
+# Build the docker image locally with the image name 
+# and then push it to ECR with the full name.
 
 docker build  -t ${image} .
 docker tag ${image} ${fullname}

@@ -12,8 +12,8 @@ model = ResNet50(weights="imagenet")
 
 # serialize model to JSON
 model_json = model.to_json()
-with open("./container/model/model.json", "w") as json_file:
+with open("./model/model.json", "w") as json_file:
     json_file.write(model_json)
 
 # serialize weights to HDF5
-model.save_weights("./container/model/weights.hdf5")
+model.save_weights("./model/weights.hdf5")

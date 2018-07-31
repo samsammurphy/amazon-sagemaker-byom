@@ -17,42 +17,24 @@ def ping():
     """
 
     # You can insert a health check here
-    health = InferenceService.get_model() is not None  
-    
-    # choose a response
-    if health:
-        response = "loaded model successfully!"
-        status = 200
-    else:
-        response = "model not loaded"
-        status = 500
+    return flask.Response(response="pong", status=200, mimetype='text/plain')
 
-    return flask.Response(response=response, status=status, mimetype='text/plain')
-
-@app.route('/predict', methods=['POST'])
+@app.route('/invocations', methods=['POST'])
 def run_inference():
     """
     Run an inference
     """ 
     
-    # You can insert more robust checks here
+    # insert health checks and sanitation here
     if not flask.request.files.get("image"):
         return flask.Response(response='image required in request', status=400, mimetype='text/plain')
 
-    # read the image in PIL format
+    # read the image
     image = flask.request.files["image"].read()
     image = Image.open(io.BytesIO(image))
 
-    response = InferenceService.predict(image)
-
     # run AI
-    try:
-        response = InferenceService.predict(image)
-        status = 200
-    except:
-        response = json.dumps('server error')
-        status = 500
-         
+    response, status = InferenceService.predict(image)        
     return flask.Response(response=response, status=status, mimetype='application/json')
 
 # some minimal UX
@@ -61,12 +43,12 @@ def home():
     """
     home page message
     """
-    return "Hello, POST your image to '/predict' to get this AI brain working.. "
+    return "Hello, POST your image to '/invocations' to get this AI brain working.. "
 
 # some more minimal UX
-@app.route("/predict", methods=["GET"])
+@app.route("/invocations", methods=["GET"])
 def reminder_to_POST():
     """
-    predict page message
+    invocations message
     """
     return "Hi, if you POST me an image I'll try and figure out what it is.."
