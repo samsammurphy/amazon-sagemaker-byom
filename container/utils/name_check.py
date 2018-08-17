@@ -58,7 +58,7 @@ MORE ON RANGES
 import re
 import sys
 
-def regex(name):
+def name_check(name):
     """
     Check container name will be valid
 
@@ -83,18 +83,3 @@ def regex(name):
         return f'The name "{name}" is valid'
 
     return f'The name "{name}" is NOT VALID !!!'
-
-def main():
-
-  args = sys.argv[1:]
-
-  if len(args) != 1:
-    print('Usage: $ python name_check.py {name}')
-    sys.exit(1)
-
-  name = args[0]
-  result = regex(name)
-  print(result)
-
-if __name__ == '__main__':
-  main()

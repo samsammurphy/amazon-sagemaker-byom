@@ -29,12 +29,11 @@ RUN wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py && \
 # output stream, which means that logs can be delivered to the user quickly. PYTHONDONTWRITEBYTECODE
 # keeps Python from writing the .pyc files which are unnecessary in this case. We also update
 # PATH so that the train and serve programs are found when the container is invoked.
-
 ENV PYTHONUNBUFFERED=TRUE
 ENV PYTHONDONTWRITEBYTECODE=TRUE
 ENV PATH="/opt/program:${PATH}"
 
-# Added dependencies for Machine Learning
+# Additional dependencies
 RUN pip install tensorflow keras
 
 # Copy the app 

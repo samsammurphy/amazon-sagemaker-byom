@@ -75,4 +75,4 @@ class InferenceService(object):
       return (json.dumps(response), 200)
 
     except Exception as e:
-      return (json.dumps(e), 500)
+      return (f'Server Error: {e}', 500)
